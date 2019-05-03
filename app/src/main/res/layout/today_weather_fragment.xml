@@ -4,12 +4,14 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorAccent"
         tools:context=".fragment.TodayWeather">
 
     <TextView
+            android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:textColor="@color/colorAccent"
+            android:textSize="16sp"
             android:text="Today"/>
 
 </FrameLayout>
