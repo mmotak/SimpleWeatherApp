@@ -1,7 +1,7 @@
-package pl.com.mmotak.simpleweather.openweather
+package pl.com.mmotak.simpleweather.openweather.network.model
 
 // This is the main data class
-data class Weather(
+data class OpenWeatherWeb(
     val base: String,
     val clouds: Clouds,
     val cod: Int,

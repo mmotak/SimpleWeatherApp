@@ -89,4 +89,8 @@ dependencies {
 
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+
+    // Kluent
+    testImplementation "org.amshove.kluent:kluent:$kluent_version" // for JVM
+    testImplementation "org.amshove.kluent:kluent-android:$kluent_version" // for Android
 }

@@ -1,4 +1,4 @@
-package pl.com.mmotak.simpleweather.openweather
+package pl.com.mmotak.simpleweather.openweather.network.model
 
 enum class Lang(val code: String) {
     Arabic("ar"),

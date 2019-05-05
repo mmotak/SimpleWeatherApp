@@ -1,11 +1,10 @@
-package pl.com.mmotak.simpleweather.openweather
+package pl.com.mmotak.simpleweather.openweather.network
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.Deferred
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import org.intellij.lang.annotations.Language
+import pl.com.mmotak.simpleweather.openweather.network.model.OpenWeatherWeb
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -27,7 +26,10 @@ interface OpenWeatherApi {
 
         operator fun invoke() : OpenWeatherApi {
             val apiKeyInterceptor = Interceptor {
-                val newUrl = it.request().url().newBuilder().addQueryParameter(API_KEY_ID, API_KEY_VALUE).build()
+                val newUrl = it.request().url().newBuilder().addQueryParameter(
+                    API_KEY_ID,
+                    API_KEY_VALUE
+                ).build()
                 val newRequest = it.request().newBuilder().url(newUrl).build()
                 return@Interceptor it.proceed(newRequest)
             }
@@ -47,5 +49,5 @@ interface OpenWeatherApi {
     }
 
     @GET("weather")
-    fun getWeather(@Query("q") cityName: String, @Query("lang") language: String = "en") : Deferred<Weather>
+    fun getWeather(@Query("q") cityName: String, @Query("lang") language: String = "en") : Deferred<OpenWeatherWeb>
 }
