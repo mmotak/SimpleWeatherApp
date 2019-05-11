@@ -1,17 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<layout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".fragment.TodayWeather">
+        tools:context="pl.com.mmotak.simpleweather.fragment.TodayWeather">
 
-    <TextView
-            android:id="@+id/textView"
+    <data>
+        <variable name="vm"
+                  type="pl.com.mmotak.simpleweather.fragment.TodayWeatherViewModel"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textColor="@color/colorAccent"
-            android:textSize="16sp"
-            android:text="Today"/>
+>
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintGuide_percent="0.5"/>
+
+        <androidx.constraintlayout.widget.Group
+                app:isLoading="@{vm.isLoading}"
+                android:id="@+id/loadingGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="progressBarLoading, textViewLoading"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        <ProgressBar
+                android:id="@+id/progressBarLoading"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:indeterminate="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        <TextView
+                android:id="@+id/textViewLoading"
+                android:text="@string/loading_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/progressBarLoading"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintVertical_bias="0.0"/>
+
+
+        <TextView
+                app:weather_description="@{vm.weather}"
+                android:id="@+id/textViewCondition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintHorizontal_bias="0.05"
+                app:layout_constraintVertical_bias="0.02"
+                tools:text="Patchy rain possible"/>
+
+        <ImageView
+                android:visibility="visible"
+                android:id="@+id/imageViewWeather"
+                tools:src="@drawable/ic_sun"
+                tools:tint="@color/colorAccent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintWidth_percent="0.3"
+
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintVertical_bias="0.2"
+                android:contentDescription="@string/weather_image"/>
+        <TextView
+                android:id="@+id/textViewTemperature"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline2"
+                tools:text="25.0°C"
+                app:weather_temperature="@{vm.weather}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintVertical_bias="1.0"
+                app:layout_constraintBottom_toBottomOf="@id/imageViewWeather"
+                app:layout_constraintTop_toTopOf="@+id/imageViewWeather"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/guideline"/>
+
+        <TextView
+                android:id="@+id/textViewFeelsTemperature"
+                tools:text="Feels like 26.3°C"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textViewTemperature"
+                app:layout_constraintStart_toStartOf="@id/textViewTemperature"
+                app:layout_constraintEnd_toEndOf="@id/textViewTemperature"
+                app:layout_constraintHorizontal_bias="0.4"
+                app:layout_constraintVertical_bias="0.0"/>
+
+
+        <TextView
+                android:id="@+id/textViewWind"
+                app:weather_wind="@{vm.weather}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.028"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.542"
+                tools:text="Wind: SE, 5.3 m/s" />
+
+        <TextView
+                android:id="@+id/textViewPrecipitation"
+                app:weather_precipitation="@{vm.weather}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.031"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewWind"
+                app:layout_constraintVertical_bias="0.0"
+                tools:text="Precipitation: 5 mm" />
+
+        <TextView
+                android:id="@+id/textViewVisibility"
+                app:weather_visibility="@{vm.weather}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.031"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewPrecipitation"
+                app:layout_constraintVertical_bias="0.0"
+                tools:text="Visibility: 20 km" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import pl.com.mmotak.simpleweather.model.Weather
 import pl.com.mmotak.simpleweather.network.WeatherNetworkProvider
 import pl.com.mmotak.simpleweather.openweather.network.model.OpenWeatherWeb
+import pl.com.mmotak.simpleweather.openweather.toAppWeather
 import java.lang.Exception
 
 class OpenWeatherNetworkProvider : WeatherNetworkProvider {
@@ -18,7 +19,7 @@ class OpenWeatherNetworkProvider : WeatherNetworkProvider {
     override suspend fun fetchWeather(cityName: String, languageCode: String) {
         // TODO check languange code
         try {
-            val w = api.getWeather(cityName, languageCode).await()
+            val w = api.getWeatherAsync(cityName, languageCode).await()
             _weather.postValue(w.toWeather())
         } catch (e : Exception) {
             Log.e("Weather", e.message, e)
@@ -27,9 +28,6 @@ class OpenWeatherNetworkProvider : WeatherNetworkProvider {
 
     private fun OpenWeatherWeb.toWeather() : Weather {
         Log.d("Weather", this.toString() )
-        return Weather(
-            city = this.name,
-            temp = this.main.temp
-        )
+        return toAppWeather()
     }
 }

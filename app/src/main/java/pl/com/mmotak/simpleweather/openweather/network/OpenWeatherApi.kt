@@ -4,6 +4,7 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import kotlinx.coroutines.Deferred
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import pl.com.mmotak.simpleweather.openweather.network.model.OpenWeatherWeb
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -36,6 +37,7 @@ interface OpenWeatherApi {
 
             val okHttpClient = OkHttpClient.Builder()
                 .addInterceptor(apiKeyInterceptor)
+                .addInterceptor(HttpLoggingInterceptor().also { it.level = HttpLoggingInterceptor.Level.BODY })
                 .build()
 
             return Retrofit.Builder()
@@ -49,5 +51,5 @@ interface OpenWeatherApi {
     }
 
     @GET("weather")
-    fun getWeather(@Query("q") cityName: String, @Query("lang") language: String = "en") : Deferred<OpenWeatherWeb>
+    fun getWeatherAsync(@Query("q") cityName: String, @Query("lang") language: String = "pl") : Deferred<OpenWeatherWeb>
 }

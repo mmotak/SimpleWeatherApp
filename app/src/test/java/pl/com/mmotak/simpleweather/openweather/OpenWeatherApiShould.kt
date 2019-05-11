@@ -17,7 +17,7 @@ class OpenWeatherApiShould {
     @Test
     fun downloadTheWeather() {
         runBlocking {
-            var output = api.getWeather("London").await()
+            var output = api.getWeatherAsync("London").await()
             println(output)
             output.name `should be equal to` "London"
         }

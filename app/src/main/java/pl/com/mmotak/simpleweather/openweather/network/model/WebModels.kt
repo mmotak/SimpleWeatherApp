@@ -6,14 +6,16 @@ data class OpenWeatherWeb(
     val clouds: Clouds,
     val cod: Int,
     val coord: Coord,
-    val dt: Int,
-    val id: Int,
+    val dt: Long,
+    val id: Long,
     val main: Main,
     val name: String,
     val sys: Sys,
     val visibility: Int,
     val weather: List<WeatherX>,
-    val wind: Wind
+    val wind: Wind,
+    val rain: Map<String, Int>,
+    val snow: Map<String, Int>
 )
 
 data class Clouds(val all: Int)
@@ -32,8 +34,8 @@ data class Sys(
     val country: String,
     val id: Int,
     val message: Double,
-    val sunrise: Int,
-    val sunset: Int,
+    val sunrise: Long,
+    val sunset: Long,
     val type: Int
 )
 
@@ -44,4 +46,4 @@ data class WeatherX(
     val main: String
 )
 
-data class Wind(val speed: Double)
+data class Wind(val speed: Double, val degree: Int)

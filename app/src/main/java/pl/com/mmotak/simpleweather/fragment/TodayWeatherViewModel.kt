@@ -2,6 +2,7 @@ package pl.com.mmotak.simpleweather.fragment
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel;
 import pl.com.mmotak.simpleweather.coroutines.BackgroundScope
 import pl.com.mmotak.simpleweather.model.Weather
@@ -17,15 +18,21 @@ class TodayWeatherViewModel : ViewModel() {
     private val scopeDelegate = lazy { BackgroundScope() }
     private val scope by scopeDelegate
 
+    val weather: LiveData<Weather>
+        get() = weatherRepository.getWeather()
+
+    val isLoading = MediatorLiveData<Boolean>()
+
     init {
         if (weatherRepository is CoroutineWeatherRepository) {
             scope.onStart()
             weatherRepository.setScope(scope)
         }
+        isLoading.value = true
+        isLoading.addSource(weather) { w : Weather? ->
+            isLoading.value = w == null
+        }
     }
-
-    val weather: LiveData<Weather>
-        get() = weatherRepository.getWeather()
 
     override fun onCleared() {
         Log.d("Weather", "onCleared")
