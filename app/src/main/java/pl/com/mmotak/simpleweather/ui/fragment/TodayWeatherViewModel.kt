@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.*
 import arrow.core.toOption
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import pl.com.mmotak.simpleweather.R
 import pl.com.mmotak.simpleweather.SimpleWeatherApplication
@@ -20,6 +21,7 @@ class TodayWeatherViewModel(
     : AndroidViewModel(application) {
     private val scope by lazy { BackgroundScope() }
     private var _weather = MutableLiveData<UiWeather>()
+    private var job: Job? = null
 
     val weather: LiveData<UiWeather>
         get() = getWeatherFromRepo()
@@ -42,11 +44,13 @@ class TodayWeatherViewModel(
     }
 
     private fun fetchWeather() {
-        scope.launch {
-            weatherRepository.getWeather()?.let {
-                val uiWeather = it.toUiWeather(app)
-                if (uiWeather != _weather.value) {
-                    _weather.postValue(uiWeather)
+        if (job == null || job?.isCompleted == true) {
+            job = scope.launch {
+                weatherRepository.getWeather()?.let {
+                    val uiWeather = it.toUiWeather(app)
+                    if (uiWeather != _weather.value) {
+                        _weather.postValue(uiWeather)
+                    }
                 }
             }
         }

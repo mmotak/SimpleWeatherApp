@@ -39,7 +39,7 @@ class WeatherRepositoryImpl(
 
     private suspend fun progress() {
         for (i: Int in 0..100) {
-            delay(10)
+            delay(100)
             Log.i("Weather", "[${Thread.currentThread().name}] Progress $i%")
         }
     }

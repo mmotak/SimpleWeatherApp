@@ -33,7 +33,7 @@ class SimpleWeatherApplication : Application(), KodeinAware {
         bind<WeatherRepository>() with singleton { WeatherRepositoryImpl(instance(), instance()) }
 
         // view model factory
-        bind<ViewModelFactory>() with provider { ViewModelFactory(instance(), instance()) }
+        bind<ViewModelFactory>() with singleton { ViewModelFactory(instance(), instance()) }
     }
 
     override fun onCreate() {
