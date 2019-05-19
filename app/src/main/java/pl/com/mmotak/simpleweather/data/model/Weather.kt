@@ -3,12 +3,13 @@ package pl.com.mmotak.simpleweather.data.model
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZonedDateTime
 
-data class Weather (
+data class Weather ( // TODO: make seperated prezenter model
     val location: Location,
     val conditions: Conditions,
-    val descriptions: List<Description>,
+    internal val descriptions: List<Description>,
     val systemDateTime: ZonedDateTime,
-    val lastUpdate: LocalDateTime
+    val lastUpdate: LocalDateTime,
+    val description :String = descriptions.first().description
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

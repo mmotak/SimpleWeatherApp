@@ -39,15 +39,15 @@ class TodayWeather : Fragment(), KodeinAware {
             it.vm = viewModel
         }
 
-        viewModel.weather.observe(this, Observer { weather ->
-            weather?.let { w ->
-                (activity as AppCompatActivity).supportActionBar?.let {
-                    Log.d("Weather", "" + w)
-                    it.title = w.location.name
-                    it.subtitle = w.lastUpdate.toLocalDate().toString()
-                }
-            }
-        })
+//        viewModel.weather.observe(this, Observer { weather ->
+//            weather?.let { w ->
+//                (activity as AppCompatActivity).supportActionBar?.let {
+//                    Log.d("Weather", "" + w)
+//                    it.title = w.locationName
+//                    it.subtitle = w.dateTime
+//                }
+//            }
+//        })
     }
 
 }
