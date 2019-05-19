@@ -1,17 +1,17 @@
 package pl.com.mmotak.simpleweather.data.db
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import pl.com.mmotak.simpleweather.data.model.Weather
+import kotlinx.coroutines.Deferred
+import pl.com.mmotak.simpleweather.data.db.model.WeatherDb
 
 @Dao
 interface CurrentWeatherDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun upsert(weather: Weather)
+    suspend fun insert(weather: WeatherDb)
 
-    @Query("select * from weather_table where id like :name")
-    fun loadCurrentWeather(name : String) : LiveData<Weather>
+    @Query("select * from weather_db_table where id like :name")
+    suspend fun loadCurrentWeather(name : String) : WeatherDb?
 }

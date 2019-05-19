@@ -44,6 +44,7 @@ fun OpenWeatherWeb.toAppWeather(): Weather {
             sunset = this.sys.sunset.toZonedDateTime()
         ),
         descriptions = this.weather.map { Description(it.main, it.description, it.icon) },
-        systemDateTime = this.dt.toZonedDateTime()
+        systemDateTime = this.dt.toZonedDateTime(),
+        lastUpdate = LocalDateTime.now()
     )
 }

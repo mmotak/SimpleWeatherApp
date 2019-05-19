@@ -42,6 +42,7 @@ dependencies {
 
     // Room
     implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-coroutines:$room_version"
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
@@ -86,6 +87,10 @@ dependencies {
 
     // WeatherLocation
     implementation "com.google.android.gms:play-services-location:16.0.0"
+
+    // io.arrow-kt
+    implementation "io.arrow-kt:arrow-core-data:$arrow_version"
+    implementation "io.arrow-kt:arrow-core-extensions:$arrow_version"
 
     // New Material Design
     implementation "com.google.android.material:material:1.0.0"

@@ -1,4 +1,4 @@
-package pl.com.mmotak.simpleweather.data.db
+package pl.com.mmotak.simpleweather.data.db.converter
 
 import android.util.Log
 import androidx.room.TypeConverter
@@ -9,9 +9,9 @@ import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.format.DateTimeFormatter
-import pl.com.mmotak.simpleweather.data.model.Description
-import pl.com.mmotak.simpleweather.data.model.Volume
-import pl.com.mmotak.simpleweather.data.model.Wind
+import pl.com.mmotak.simpleweather.data.db.model.DescriptionDb
+import pl.com.mmotak.simpleweather.data.db.model.VolumeDb
+import pl.com.mmotak.simpleweather.data.db.model.WindDb
 
 abstract class GSONConverer<T> {
 
@@ -21,50 +21,48 @@ abstract class GSONConverer<T> {
     @TypeConverter
     fun fromJson(json: String) : T {
         val type = object : TypeToken<T>() { }.type
-        //Log.d("Weather","type ($type)")
-        //Log.d("Weather","json ($json)")
+        Log.d("Weather","type ($type)")
+        Log.d("Weather","json ($json)")
         return Gson().fromJson(json, type)
     }
 
     //inline fun <reified T> Gson.fromJson(json: String) = this.fromJson<T>(json, object: TypeToken<T>() {}.type)
 }
 
-
-
-class DescriptionsDbConverter {
-    private val gson = Gson()
+class DescriptionDbConverter {
+    @TypeConverter
+    fun toJson(item: List<DescriptionDb>) : String = Gson().toJson(item)
 
     @TypeConverter
-    fun toJson(list: List<Description>) : String = gson.toJson(list)
-
-    @TypeConverter
-    fun toList(json: String) : List<Description> {
-        val listType = object : TypeToken<List<Description>>() { }.type
-        //Log.d("Weather","type ($listType)")
-        //Log.d("Weather","json ($json)")
-        return gson.fromJson(json, listType)
+    fun fromJson(json: String) : List<DescriptionDb> {
+        val type = object : TypeToken<List<DescriptionDb>>() { }.type
+        Log.d("Weather","type ($type)")
+        Log.d("Weather","json ($json)")
+        return Gson().fromJson(json, type)
     }
 }
 
 class VolumeDbConverter {
-    private val gson = Gson()
+    @TypeConverter
+    fun toJson(item: VolumeDb) : String = Gson().toJson(item)
 
     @TypeConverter
-    fun toJson(volume: Volume) : String = gson.toJson(volume)
-
-    @TypeConverter
-    fun toVolume(json: String) : Volume = gson.fromJson(json, Volume::class.java)
+    fun fromJson(json: String) : VolumeDb {
+        Log.d("Weather","json ($json)")
+        return Gson().fromJson(json, VolumeDb::class.java)
+    }
 }
-
 class WindDbConverter {
-    private val gson = Gson()
+    @TypeConverter
+    fun toJson(item: WindDb) : String = Gson().toJson(item)
 
     @TypeConverter
-    fun toJson(wind: Wind) : String = gson.toJson(wind)
-
-    @TypeConverter
-    fun toWind(json: String) : Wind = gson.fromJson(json, Wind::class.java)
+    fun fromJson(json: String) : WindDb {
+        Log.d("Weather","json ($json)")
+        return Gson().fromJson(json, WindDb::class.java)
+    }
 }
+
 
 class LocalDateTimeDbConverter {
     @TypeConverter

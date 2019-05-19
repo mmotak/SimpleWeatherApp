@@ -1,25 +1,33 @@
 package pl.com.mmotak.simpleweather.data.model
 
-import androidx.room.*
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZonedDateTime
-import pl.com.mmotak.simpleweather.data.db.*
 
-@Entity(tableName = "weather_table")
 data class Weather (
-    @Embedded(prefix = "location_")
     val location: Location,
-    @Embedded(prefix = "conditions_")
     val conditions: Conditions,
-    @TypeConverters(DescriptionsDbConverter::class)
     val descriptions: List<Description>,
-    @TypeConverters(ZonedDateTimeDbConverter::class)
     val systemDateTime: ZonedDateTime,
-    @TypeConverters(LocalDateTimeDbConverter::class)
-    val lastUpdate: LocalDateTime = LocalDateTime.now()
+    val lastUpdate: LocalDateTime
 ) {
-    @PrimaryKey(autoGenerate = false)
-    var id : String = location.name
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Weather
+
+        return (lastUpdate == other.lastUpdate
+                && location.name.toLowerCase() == other.location.name.toLowerCase())
+    }
+
+    override fun hashCode(): Int {
+        var result = location.hashCode()
+        result = 31 * result + conditions.hashCode()
+        result = 31 * result + descriptions.hashCode()
+        result = 31 * result + systemDateTime.hashCode()
+        result = 31 * result + lastUpdate.hashCode()
+        return result
+    }
 }
 
 data class Description(
@@ -34,27 +42,20 @@ data class Conditions(
     val humidity: Int, // %
     val clouds: Int, // %
     val visibility: Int, // M ?
-    @TypeConverters(WindDbConverter::class)
     val wind: Wind,
-    @TypeConverters(VolumeDbConverter::class)
     val rain: Volume,
-    @TypeConverters(VolumeDbConverter::class)
     val snow: Volume,
-    @TypeConverters(ZonedDateTimeDbConverter::class)
     val sunrise: ZonedDateTime,
-    @TypeConverters(ZonedDateTimeDbConverter::class)
     val sunset: ZonedDateTime
 )
 
 data class Wind(
     val speed: Double?, // m/s
     val degrees: Double?,
-    val direction: CardinalDirection?
+    val direction: CardinalDirection? = CardinalDirection.fromDegrees(degrees)
 ) {
-    @Ignore
     fun isEmpty(): Boolean = speed == null
 
-    @Ignore
     fun createStringMessage(): String {
         return when {
             speed == null -> "No wind"
@@ -63,9 +64,6 @@ data class Wind(
             else -> "$direction (${degrees.toInt()}) $speed m/s"
         }
     }
-
-    @Ignore
-    constructor(speed: Double?, degrees: Double?) : this(speed, degrees, CardinalDirection.fromDegrees(degrees))
 }
 
 data class Volume(val mm: Int, val h: Int) {

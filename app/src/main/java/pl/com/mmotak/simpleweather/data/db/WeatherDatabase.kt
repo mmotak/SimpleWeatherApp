@@ -5,14 +5,15 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import pl.com.mmotak.simpleweather.data.model.Weather
+import pl.com.mmotak.simpleweather.data.db.converter.*
+import pl.com.mmotak.simpleweather.data.db.model.WeatherDb
 
 @Database(
-    entities = [Weather::class],
+    entities = [WeatherDb::class],
     version = 1,
     exportSchema = false)
 @TypeConverters(
-    DescriptionsDbConverter::class,
+    DescriptionDbConverter::class,
     VolumeDbConverter::class,
     WindDbConverter::class,
     LocalDateTimeDbConverter::class,
