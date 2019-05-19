@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import pl.com.mmotak.simpleweather.R
-import pl.com.mmotak.simpleweather.model.Weather
+import pl.com.mmotak.simpleweather.data.model.Weather
 import java.util.*
 
 @BindingAdapter("weather_temperature")

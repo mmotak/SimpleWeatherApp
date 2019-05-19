@@ -3,11 +3,11 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        tools:context="pl.com.mmotak.simpleweather.fragment.TodayWeather">
+        tools:context=".ui.fragment.TodayWeather">
 
     <data>
         <variable name="vm"
-                  type="pl.com.mmotak.simpleweather.fragment.TodayWeatherViewModel"/>
+                  type="pl.com.mmotak.simpleweather.ui.fragment.TodayWeatherViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
